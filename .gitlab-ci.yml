@@ -1,0 +1,27 @@
+stages:
+    - test-python
+    - build-docs
+
+python_unit_tests:
+  image: python:3.10-alpine
+  stage: test-python
+  script:
+  - export PYTHONPATH=$PYTHONPATH:$CI_PROJECT_DIR
+  - pip install --upgrade pip
+  - pip install -r requirements_dev.txt
+  - pip install -U tox
+  - tox
+
+pages:
+  image: python:3.8-alpine
+  stage: build-docs
+  script:
+  - export PYTHONPATH=$PYTHONPATH:$CI_PROJECT_DIR
+  - pip install sphinx recommonmark sphinx_rtd_theme pygments ipython
+  - cd docs/
+  - make html
+  - mv _build/html/ public/
+  artifacts:
+      paths:
+      - public
+      expire_in: 1h
