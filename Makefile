@@ -63,7 +63,7 @@ check-codestyle:
 
 .PHONY: mypy
 mypy:
-	poetry run mypy --config-file pyproject.toml ./
+	poetry run mypy --config-file pyproject.toml ./pygizmo ./tests
 
 .PHONY: check-safety
 check-safety:
@@ -96,30 +96,17 @@ docker-remove:
 	@echo Removing docker $(IMAGE):$(VERSION) ...
 	docker rmi -f $(IMAGE):$(VERSION)
 
-#* Cleaning
-.PHONY: pycache-remove
-pycache-remove:
-	find . | grep -E "(__pycache__|\.pyc|\.pyo$$)" | xargs rm -rf
-
-.PHONY: dsstore-remove
-dsstore-remove:
-	find . | grep -E ".DS_Store" | xargs rm -rf
-
-.PHONY: mypycache-remove
-mypycache-remove:
-	find . | grep -E ".mypy_cache" | xargs rm -rf
-
-.PHONY: ipynbcheckpoints-remove
-ipynbcheckpoints-remove:
-	find . | grep -E ".ipynb_checkpoints" | xargs rm -rf
-
-.PHONY: pytestcache-remove
-pytestcache-remove:
-	find . | grep -E ".pytest_cache" | xargs rm -rf
-
 .PHONY: build-remove
 build-remove:
 	rm -rf build/
 
 .PHONY: cleanup
-cleanup: pycache-remove dsstore-remove mypycache-remove ipynbcheckpoints-remove pytestcache-remove
+cleanup:
+	poetry run cleanup
+
+.PHONY: publish
+publish: lint poetry-publish cleanup
+
+.PHONY: poetry-publish
+poetry-publish:
+	poetry publish --build

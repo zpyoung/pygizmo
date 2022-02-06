@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "pygizmo"
-version = "0.1.0"
+version = "0.1.1"
 description = "Tools"
 readme = "README.md"
 authors = ["Fabled Freedom <zach@fabledfreedom.com>"]
@@ -50,6 +50,9 @@ coverage = "^6.1.2"
 coverage-badge = "^1.1.0"
 pytest-html = "^3.1.1"
 pytest-cov = "^3.0.0"
+
+[tool.poetry.scripts]
+cleanup = "scripts.cleanup:main"
 
 [tool.black]
 # https://github.com/psf/black
@@ -97,8 +100,10 @@ allow_redefinition = false
 check_untyped_defs = true
 disallow_any_generics = true
 disallow_incomplete_defs = true
-ignore_missing_imports = true
+explicit_package_bases = true
+ignore_missing_imports = false
 implicit_reexport = false
+namespace_packages = true
 no_implicit_optional = true
 show_column_numbers = true
 show_error_codes = true
