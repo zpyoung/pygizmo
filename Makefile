@@ -25,8 +25,7 @@ git-start:
 	git add .
 	git commit -m ":tada: Initial commit"
 	git branch -M main
-	git remote add origin https://github.com/zpyoung/pygizmo.git
-	git push -u origin main
+	-git remote add origin @git:github.com:zpyoung/pygizmo.git
 
 
 #* Installation
